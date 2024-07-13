@@ -1,0 +1,45 @@
+#include <Arduino.h>
+#include <MeAuriga.h>
+#define ROWS 16
+#define COLUMNS 8
+
+MeLEDMatrix pantalla(PORT_10);
+
+uint8_t nave[ROWS] = {
+    0b00000000, 
+    0b00000000, 
+    0b00000000, 
+    0b00000000,
+    0b00000000, 
+    0b00000000, 
+    0b00000000, 
+    0b00000011,
+    0b00000111, 
+    0b00000011, 
+    0b00000000, 
+    0b00000000,
+    0b00000000, 
+    0b00000000, 
+    0b00000000, 
+    0b00000000
+};
+
+// Función para desplazar la nave un paso a la derecha
+void desplazarDerecha(uint8_t nave[ROWS]) {
+    uint8_t ultimo = nave[ROWS - 1]; // Guardar la última fila
+    for (int i = ROWS - 1; i > 0; i--) {
+        nave[i] = nave[i - 1]; // Desplazar cada fila una posición hacia abajo
+    }
+    nave[0] = ultimo; // Mover la última fila a la primera posición
+}
+
+void setup() {
+  
+}
+
+void loop() {
+    pantalla.drawBitmap(0, 0,ROWS, nave);
+    delay(1000);
+    desplazarDerecha(nave);
+    delay(1000);
+}
